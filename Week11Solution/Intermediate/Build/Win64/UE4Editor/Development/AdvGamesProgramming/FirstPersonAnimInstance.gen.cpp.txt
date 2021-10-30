@@ -1,5 +1,0 @@
-D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Development\AdvGamesProgramming\Definitions.AdvGamesProgramming.h
-D:\Epic Games\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
-D:\Epic Games\UE_4.24\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-D:\Unreal Projects\AGPasgt4\Week11Solution\Source\AdvGamesProgramming/FirstPersonAnimInstance.h
-d:\unreal projects\agpasgt4\week11solution\intermediate\build\win64\ue4editor\inc\advgamesprogramming\FirstPersonAnimInstance.generated.h
