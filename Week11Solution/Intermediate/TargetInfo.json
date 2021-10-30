@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "AdvGamesProgramming",
+			"Path": "D:\\Unreal Projects\\AGPasgt4\\Week11Solution\\Source\\AdvGamesProgramming.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "AdvGamesProgrammingEditor",
+			"Path": "D:\\Unreal Projects\\AGPasgt4\\Week11Solution\\Source\\AdvGamesProgrammingEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

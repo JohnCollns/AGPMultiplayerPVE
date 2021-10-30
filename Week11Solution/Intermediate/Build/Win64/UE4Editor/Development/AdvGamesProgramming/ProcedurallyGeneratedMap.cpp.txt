@@ -1,0 +1,9 @@
+D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Development\AdvGamesProgramming\Definitions.AdvGamesProgramming.h
+d:\unreal projects\agpasgt4\week11solution\source\advgamesprogramming\ProcedurallyGeneratedMap.h
+D:\Epic Games\UE_4.24\Engine\Plugins\Runtime\ProceduralMeshComponent\Source\ProceduralMeshComponent\Public\ProceduralMeshComponent.h
+D:\Epic Games\UE_4.24\Engine\Plugins\Runtime\ProceduralMeshComponent\Intermediate\Build\Win64\UE4Editor\Inc\ProceduralMeshComponent\ProceduralMeshComponent.generated.h
+D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Inc\AdvGamesProgramming\ProcedurallyGeneratedMap.generated.h
+D:\Epic Games\UE_4.24\Engine\Plugins\Runtime\ProceduralMeshComponent\Source\ProceduralMeshComponent\Public\KismetProceduralMeshLibrary.h
+D:\Epic Games\UE_4.24\Engine\Plugins\Runtime\ProceduralMeshComponent\Intermediate\Build\Win64\UE4Editor\Inc\ProceduralMeshComponent\KismetProceduralMeshLibrary.generated.h
+d:\unreal projects\agpasgt4\week11solution\source\advgamesprogramming\AIManager.h
+D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Inc\AdvGamesProgramming\AIManager.generated.h

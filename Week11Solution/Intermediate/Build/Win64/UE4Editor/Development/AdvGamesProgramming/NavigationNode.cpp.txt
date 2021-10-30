@@ -1,0 +1,4 @@
+D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Development\AdvGamesProgramming\Definitions.AdvGamesProgramming.h
+d:\unreal projects\agpasgt4\week11solution\source\advgamesprogramming\NavigationNode.h
+D:\Unreal Projects\AGPasgt4\Week11Solution\Intermediate\Build\Win64\UE4Editor\Inc\AdvGamesProgramming\NavigationNode.generated.h
+D:\Epic Games\UE_4.24\Engine\Source\Runtime\Engine\Public\DrawDebugHelpers.h
