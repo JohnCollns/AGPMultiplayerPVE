@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "AIManager.h"
 #include "HealthComponent.h"
 #include "Engine/GameEngine.h"
+#include "EngineUtils.h"
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerHUD.h"
@@ -16,6 +17,16 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	MaxHealth = 100.0f;
 	// ...
+	if (Enemy)
+	{
+		for (TObjectIterator<AAIManager> Itr; Itr; ++Itr)
+		{
+			if (Itr->IsA(AAIManager::StaticClass()))
+			{
+				Manager = *Itr;
+			}
+		}
+	}
 }
 
 
@@ -82,6 +93,14 @@ void UHealthComponent::OnDeath()
 	{
 		PlayerCharacter->OnDeath();
 	}
+	if (Manager)
+	{
+		Manager->ReduceEnemyEntities();
+	}
+	if (Enemy)
+	{
+		Enemy->CreateDrop();
+	}
 }
 
 float UHealthComponent::HealthPercentageRemaining()
@@ -101,3 +120,7 @@ void UHealthComponent::UpdateHealthBar()
 	}
 }
 
+void UHealthComponent::setHealth()
+{
+	CurrentHealth = MaxHealth;
+}

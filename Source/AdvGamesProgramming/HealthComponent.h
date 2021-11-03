@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EnemyCharacter.h"
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
@@ -28,7 +29,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float MaxHealth;
-	UPROPERTY(ReplicatedUsing = UpdateHealthBar, BlueprintReadOnly)
+	UPROPERTY(ReplicatedUsing = UpdateHealthBar, BlueprintReadWrite)
 	float CurrentHealth;
 
 	// Called every frame
@@ -41,5 +42,10 @@ public:
 	void OnDeath();
 
 	float HealthPercentageRemaining();
-		
+
+	class AAIManager* Manager;
+
+	void setHealth();
+
+	class AEnemyCharacter* Enemy;
 };

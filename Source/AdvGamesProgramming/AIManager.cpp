@@ -9,31 +9,40 @@
 // Sets default values
 AAIManager::AAIManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	AllowedAngle = 0.4f;
+
+	RoundNumber = 1;
+	EnemyEntities = 0;
+	//UE_LOG(LogTemp, Warning, TEXT("Round Number is %d"), RoundNumber);
 }
 
 // Called when the game starts or when spawned
 void AAIManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	if (AllNodes.Num() == 0)
 	{
-		UE_LOG(LogTemp, Display, TEXT("POPULATING NODES"))
+		//UE_LOG(LogTemp, Display, TEXT("POPULATING NODES"))
 		PopulateNodes();
 	}
 	CreateAgents();
-	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
+	//UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
 
 // Called every frame
 void AAIManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+	if (EnemyEntities == 0)
+	{
+		RoundNumber += 1;
+		CreateAgents();
+	}
+
 }
 
 TArray<ANavigationNode*> AAIManager::GeneratePath(ANavigationNode* StartNode, ANavigationNode* EndNode)
@@ -126,15 +135,39 @@ void AAIManager::CreateAgents()
 {
 	if (AllNodes.Num() > 0)
 	{
+		NumAI = RoundNumber;
 		for (int32 i = 0; i < NumAI; i++)
 		{
-			// Get a random node index
-			int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
-			AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(AgentToSpawn, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
-			SpawnedEnemy->Manager = this;
-			SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
+			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
+			if (RandomEnemyType < 0.50f)
+			{
+				for (int32 x = 0; x < 2; x++)
+				{
+					int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
+					AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(SwarmEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
+					SpawnedEnemy->Manager = this;
+					SpawnedEnemy->SwarmEnemy = true;
+					SpawnedEnemy->SetModifier();
+					SpawnedEnemy->SetStats();
+					SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
+					EnemyEntities += 1;
+				}
+			}
+			else
+			{
+				// Get a random node index
+				int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
+				AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(RegularEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
+				SpawnedEnemy->Manager = this;
+				SpawnedEnemy->SetModifier();
+				SpawnedEnemy->SetStats();
+				SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
+				EnemyEntities += 1;
+			}
 		}
 	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("NumAI is %d"), NumAI);
 }
 
 ANavigationNode* AAIManager::FindNearestNode(const FVector& Location)
@@ -151,8 +184,8 @@ ANavigationNode* AAIManager::FindNearestNode(const FVector& Location)
 			NearestNode = CurrentNode;
 		}
 	}
-	UE_LOG(LogTemp, Error, TEXT("Nearest Node: %s"), *NearestNode->GetName())
-		return NearestNode;
+	//UE_LOG(LogTemp, Error, TEXT("Nearest Node: %s"), *NearestNode->GetName())
+	return NearestNode;
 }
 
 ANavigationNode* AAIManager::FindFurthestNode(const FVector& Location)
@@ -170,8 +203,8 @@ ANavigationNode* AAIManager::FindFurthestNode(const FVector& Location)
 		}
 	}
 
-	UE_LOG(LogTemp, Error, TEXT("Furthest Node: %s"), *FurthestNode->GetName())
-		return FurthestNode;
+	//UE_LOG(LogTemp, Error, TEXT("Furthest Node: %s"), *FurthestNode->GetName())
+	return FurthestNode;
 }
 
 void AAIManager::GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height)
@@ -259,6 +292,12 @@ void AAIManager::AddConnection(ANavigationNode* FromNode, ANavigationNode* ToNod
 		if (!ToNode->ConnectedNodes.Contains(FromNode))
 			ToNode->ConnectedNodes.Add(FromNode);
 	}
+}
+
+void AAIManager::ReduceEnemyEntities()
+{
+	EnemyEntities -= 1;
+	UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
 }
 
 
