@@ -18,66 +18,71 @@ public:
 	ATentacleBase();
 
 	UPROPERTY(EditAnywhere)
-		int NumberOfSections;
+	int NumberOfSections;
 	UPROPERTY(EditAnywhere)
-		float SectionLength;
+	float SectionLength;
 	UPROPERTY(EditAnywhere)
-		bool bTaperThickness;
+	bool bTaperThickness;
 	UPROPERTY(EditAnywhere)
-		float MaxThickness;
+	float MaxThickness;
 	UPROPERTY(EditAnywhere)
-		float MinThickness;
+	float MinThickness;
 	UPROPERTY(EditAnywhere)
-		FColor BaseColour;
+	FColor BaseColour;
 	UPROPERTY(EditAnywhere)
-		FColor TipColour;
+	FColor TipColour;
 
 	float DynamicSamplingDistance;
 	UPROPERTY(EditAnywhere)
-		float MaxSample;
+	float MaxSample;
 	UPROPERTY(EditAnywhere)
-		float MinSample;
+	float MinSample;
 	void UpdateSamplingDistance();
 
 	float DynamicLearningRate;
 	UPROPERTY(EditAnywhere)
-		float MaxLearningRate;
+	float MaxLearningRate;
 	UPROPERTY(EditAnywhere)
-		float MinLearningRate;
+	float MinLearningRate;
 	void UpdateLearningRate();
 
 	// Dynamism range values. Anything above the max value will result in full speed motion, anything less will result in motion lerped at the rate between the two
 	UPROPERTY(EditAnywhere)
-		float MaxDynamismRange;
+	float MaxDynamismRange;
 	UPROPERTY(EditAnywhere)
-		float MinDynamismRange;
+	float MinDynamismRange;
 	UPROPERTY(EditAnywhere)
-		float EarlyTerminationDistance;
+	float EarlyTerminationDistance;
 
 	UPROPERTY()
-		USceneComponent* Root;
+	USceneComponent* Root;
 
 	UPROPERTY(EditAnywhere)
-		AActor* TargetActor;
+	AActor* TargetActor;
 
 	UPROPERTY(EditAnywhere)
-		bool bRegenerateLimb;
+	bool bRegenerateLimb;
 	UPROPERTY(EditAnywhere)
-		bool bRunIKRealtime;
+	bool bRunIKRealtime;
 	UPROPERTY(EditAnywhere)
-		bool bRunInPlaymode;
+	bool bRunInPlaymode;
 	UPROPERTY(EditAnywhere)
-		bool bRunIKOnce;
+	bool bRunIKOnce;
 	UPROPERTY(EditAnywhere)
-		bool bDebugLines;
+	bool bDebugLines;
 	UPROPERTY(EditAnywhere)
-		bool bCalculatePoints;
+	bool bCalculatePoints;
 	UPROPERTY(EditAnywhere)
-		bool bCalculateError;
+	bool bCalculateError;
 	UPROPERTY(EditAnywhere)
-		bool bDisplayRotations;
+	bool bDisplayRotations;
 
 	virtual bool ShouldTickIfViewportsOnly() const override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
+	//UFUNCTION(Server, Reliable)
+	//bool ServerIK(FVector& const Target);
 
 	FVector FindEndLocation();
 	TArray<float> GetAngles(int Axis);
@@ -91,7 +96,7 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere)
-		TArray<class ATentacleSection*> Sections;
+	TArray<class ATentacleSection*> Sections;
 	void ConstructLimb();
 	void CalculatePoints(); // a function that just prints the locations of the TBase, all sections starts and ends, and the final end point. 
 

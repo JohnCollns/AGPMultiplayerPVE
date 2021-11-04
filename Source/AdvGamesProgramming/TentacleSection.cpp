@@ -8,6 +8,7 @@ ATentacleSection::ATentacleSection()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
 	Length = 0.5f;
 	Thickness = 0.35f;
 
