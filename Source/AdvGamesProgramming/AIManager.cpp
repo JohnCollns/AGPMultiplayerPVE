@@ -131,7 +131,7 @@ void AAIManager::PopulateNodes()
 	}
 }
 
-void AAIManager::CreateAgents()
+void AAIManager::CreateAgents_Implementation()
 {
 	if (AllNodes.Num() > 0)
 	{

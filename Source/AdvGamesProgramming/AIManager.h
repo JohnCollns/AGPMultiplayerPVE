@@ -46,6 +46,7 @@ public:
 
 	TArray<ANavigationNode*> GeneratePath(ANavigationNode* StartNode, ANavigationNode* EndNode);
 	void PopulateNodes();
+	UFUNCTION(Server, Reliable)
 	void CreateAgents();
 
 	/**

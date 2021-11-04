@@ -86,18 +86,19 @@ void UHealthComponent::OnTakeDamage(float Damage)
 void UHealthComponent::OnDeath()
 {
 	APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwner());
-	if (PlayerCharacter)
+	if (PlayerCharacter )
 	{
 		PlayerCharacter->OnDeath();
 	}
 	
-	if (Parent)
+	if (Enemy)
 	{
 		if (Manager)
 		{
 			Manager->ReduceEnemyEntities();
 		}
-		Parent->CreateDrop();
+		Enemy->CreateDrop();
+		Enemy->Destroy();
 	}
 }
 
@@ -108,7 +109,7 @@ float UHealthComponent::HealthPercentageRemaining()
 
 void UHealthComponent::UpdateHealthBar()
 {
-	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy || (GetOwner()->GetLocalRole() == ROLE_Authority && Cast<APawn>(GetOwner())->IsLocallyControlled()))
+	if (GetOwner()->GetLocalRole() == ROLE_AutonomousProxy && !Enemy || (GetOwner()->GetLocalRole() == ROLE_Authority && Cast<APawn>(GetOwner())->IsLocallyControlled()) && !Enemy)
 	{
 		APlayerHUD* PlayerHUD = Cast<APlayerHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 		if (IsValid(PlayerHUD))

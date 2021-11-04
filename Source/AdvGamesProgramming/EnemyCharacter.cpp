@@ -37,7 +37,7 @@ void AEnemyCharacter::BeginPlay()
 	HealthComponent = FindComponentByClass<UHealthComponent>();
 	if (HealthComponent)
 	{
-		HealthComponent->Parent = this;
+		HealthComponent->Enemy = this;
 	}
 
 	PerceptionComponent = FindComponentByClass<UAIPerceptionComponent>();

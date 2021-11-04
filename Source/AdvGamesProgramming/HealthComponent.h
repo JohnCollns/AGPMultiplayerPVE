@@ -47,5 +47,5 @@ public:
 
 	void setHealth();
 
-	class AEnemyCharacter* Parent;		
+	class AEnemyCharacter* Enemy;		
 };
