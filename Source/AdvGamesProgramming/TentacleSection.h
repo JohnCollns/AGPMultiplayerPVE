@@ -39,6 +39,8 @@ public:
 	FVector CalculateEndAtAngle(float Angle, int Axis);
 	FVector CalculateEndFromPoint(FVector Start, float Angle, int Axis);
 
+
+
 private:
 	UStaticMeshComponent* Mesh;
 	UMaterial* MaterialObject;

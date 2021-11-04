@@ -10,6 +10,7 @@ ATentacleBase::ATentacleBase()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
 	bRegenerateLimb = false;
 	bCalculatePoints = false;
 	Root = CreateDefaultSubobject<USceneComponent>("Root");
@@ -132,6 +133,23 @@ void ATentacleBase::ConstructLimb() {
 			NewSection->GenerateSection(i);
 	}
 }
+
+void ATentacleBase::SetParameters_Implementation(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_) {
+	NumberOfSections = NumberOfSections_;
+	SectionLength = SectionLength_;
+	MaxThickness = MaxThickness_;
+	MinThickness = MinThickness_;
+	BaseColour = BaseColor_;
+	TipColour = TipColor_;
+	bTaperThickness = true;
+
+	bRunInPlaymode = true;
+	ConstructLimb();
+}
+
+//bool ATentacleBase::ServerIK_Implementation(FVector& const Target) {
+//	return IK(TargetActor->GetActorLocation());
+//}
 
 FVector ATentacleBase::FindEndLocation() { // Return the worldspace location of the end effector. 
 	if (Sections.Num() > 0)
