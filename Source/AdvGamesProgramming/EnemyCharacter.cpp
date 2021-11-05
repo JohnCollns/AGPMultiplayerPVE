@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "HealthComponent.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -105,7 +106,7 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 }
 
-void AEnemyCharacter::AgentPatrol()
+void AEnemyCharacter::AgentPatrol_Implementation()
 {
 	if (Path.Num() == 0)
 	{
@@ -116,8 +117,9 @@ void AEnemyCharacter::AgentPatrol()
 	}
 }
 
-void AEnemyCharacter::AgentEngage()
+void AEnemyCharacter::AgentEngage_Implementation()
 {
+	
 	if (bCanSeeActor && DetectedActor)
 	{
 		FVector FireDirection = DetectedActor->GetActorLocation() - GetActorLocation();
@@ -128,10 +130,12 @@ void AEnemyCharacter::AgentEngage()
 		ANavigationNode* NearestNode = Manager->FindNearestNode(DetectedActor->GetActorLocation());
 		Path = Manager->GeneratePath(CurrentNode, NearestNode);
 	}
+	
 }
 
-void AEnemyCharacter::AgentEvade()
+void AEnemyCharacter::AgentEvade_Implementation()
 {
+	
 	if (bCanSeeActor && DetectedActor)
 	{
 		FVector FireDirection = DetectedActor->GetActorLocation() - GetActorLocation();
@@ -142,10 +146,12 @@ void AEnemyCharacter::AgentEvade()
 		ANavigationNode* FurthestNode = Manager->FindFurthestNode(DetectedActor->GetActorLocation());
 		Path = Manager->GeneratePath(CurrentNode, FurthestNode);
 	}
+	
 }
 
-void AEnemyCharacter::SensePlayer(AActor* ActorSensed, FAIStimulus Stimulus)
+void AEnemyCharacter::SensePlayer_Implementation(AActor* ActorSensed, FAIStimulus Stimulus)
 {
+	
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Player Detected"))
@@ -157,10 +163,12 @@ void AEnemyCharacter::SensePlayer(AActor* ActorSensed, FAIStimulus Stimulus)
 		//UE_LOG(LogTemp, Warning, TEXT("Player Lost"))
 		bCanSeeActor = false;
 	}
+	
 }
 
-void AEnemyCharacter::MoveAlongPath()
+void AEnemyCharacter::MoveAlongPath_Implementation()
 {
+	
 	if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
 		&& Path.Num() > 0)
 	{
@@ -170,6 +178,7 @@ void AEnemyCharacter::MoveAlongPath()
 	{
 		AddMovementInput(CurrentNode->GetActorLocation() - GetActorLocation());
 	}
+	
 }
 
 void AEnemyCharacter::GenerateRandomBoolArray(int32 ArrayLength, int32 NumTrue, TArray<bool>& RandBoolArray)
@@ -190,7 +199,7 @@ void AEnemyCharacter::GenerateRandomBoolArray(int32 ArrayLength, int32 NumTrue, 
 	}
 }
 
-void AEnemyCharacter::SetModifier()
+void AEnemyCharacter::SetModifier_Implementation()
 {
 	if (Manager)
 	{
@@ -268,4 +277,15 @@ void AEnemyCharacter::CreateDrop()
 		}
 	}
 
+}
+
+void AEnemyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AEnemyCharacter, EnemyRarity);
+	DOREPLIFETIME(AEnemyCharacter, BulletDamage);
+	DOREPLIFETIME(AEnemyCharacter, MuzzleVelocity);
+	DOREPLIFETIME(AEnemyCharacter, MagazineSize);
+	DOREPLIFETIME(AEnemyCharacter, WeaponAccuracy);
 }

@@ -65,33 +65,38 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(Server, Reliable)
 	void AgentPatrol();
+	UFUNCTION(Server, Reliable)
 	void AgentEngage();
+	UFUNCTION(Server, Reliable)
 	void AgentEvade();
 
-	UFUNCTION()
+	UFUNCTION(Server, Reliable)
 		void SensePlayer(AActor* ActorSensed, FAIStimulus Stimulus);
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void Fire(FVector FireDirection);
 
 	//Rarity Properites
-
-	void SetStats();
+	UFUNCTION(BlueprintCallable)
+	void SetStats() override;
+	UFUNCTION(Server, Reliable)
 	void SetModifier();
-	UFUNCTION(BlueprintImplementableEvent)
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void AdjustEnemy();
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere)
 		EEnemyRarity EnemyRarity;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere)
 		float BulletDamage;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere)
 		float MuzzleVelocity;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere)
 		int32 MagazineSize;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(Replicated, BlueprintReadOnly, VisibleAnywhere)
 		float WeaponAccuracy;
 
 	float DifficultyConstant;
@@ -110,8 +115,9 @@ public:
 
 	void CreateDrop();
 
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 private:
-
+	UFUNCTION(Server, Reliable)
 	void MoveAlongPath();
 	void GenerateRandomBoolArray(int32 ArrayLength, int32 NumTrue, TArray<bool>& RandBoolArray);
 };
