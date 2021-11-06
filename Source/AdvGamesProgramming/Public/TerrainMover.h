@@ -25,11 +25,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "TerrainStates")
 	TArray<FVector> States;
 	UPROPERTY(EditAnywhere, Category = "TerrainStates")
-	FVector default;
+	FVector DefaultPosition;
 	UPROPERTY(EditAnywhere, Category = "TerrainStates")
 	FVector Destination;
 
 	void SetState(int);
 	
-
+	UFUNCTION()
+	void MirrorStates();
 };

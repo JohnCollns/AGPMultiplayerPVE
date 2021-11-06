@@ -17,6 +17,7 @@ ATerrainMover::ATerrainMover()
 void ATerrainMover::BeginPlay()
 {
 	Super::BeginPlay();
+	Destination = DefaultPosition;
 }
 
 // Called every frame
@@ -24,7 +25,8 @@ void ATerrainMover::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(this->GetActorLocation() != Destination)
+	//if(this->GetActorLocation() != Destination)
+	if((GetActorLocation() - Destination).IsNearlyZero())
 	{
 		this->SetActorLocation(FMath::Lerp(this->GetActorLocation(), Destination, DeltaTime));
 		//FMath::Lerp(this->GetActorLocation(), Destination, DeltaTime);
@@ -34,6 +36,17 @@ void ATerrainMover::Tick(float DeltaTime)
 
 void ATerrainMover::SetState(int num)
 {
-	Destination = FVector(default.X + States[num].X,default.Y + States[num].Y,default.Z + States[num].Z);
+	Destination = FVector(DefaultPosition.X + States[num].X, DefaultPosition.Y + States[num].Y, DefaultPosition.Z + States[num].Z);
 }
 
+void ATerrainMover::MirrorStates() {
+	DefaultPosition = FVector(-DefaultPosition.X, DefaultPosition.Y, DefaultPosition.Z);
+	for (int32 i=0; i < States.Num(); i++)
+	{
+		States[i] = FVector(-States[i].X, States[i].Y, States[i].Z);
+	}
+	/*for each (FVector MirroredState in States)
+	{
+		MirroredState = FVector(-MirroredState.X, MirroredState.Y, MirroredState.Z);
+	}*/
+}

@@ -26,9 +26,12 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TArray<ATerrainMover*> TerrainObjects;
+	UPROPERTY(VisibleAnywhere)
+	TArray<ATerrainMover*> MirroredObjects;
 	UPROPERTY(EditAnywhere)
 	bool RunThisShitLmao;
 
 	void ShiftStates();
 
+	TSubclassOf<ATerrainMover> SpawnableSubclass;
 };

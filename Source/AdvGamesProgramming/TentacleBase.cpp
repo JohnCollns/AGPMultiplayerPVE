@@ -209,7 +209,23 @@ void ATentacleBase::ConstructLimb() {
 }
 
 void ATentacleBase::SetFromRarity(EWeaponPickupRarity Rarity) {
-
+	switch (Rarity) {
+		case EWeaponPickupRarity::COMMON:
+			//
+			BaseColour = FColor(2, 32, 8);
+			BaseColour = FColor(3, 77, 15);
+			break;
+		case EWeaponPickupRarity::RARE:
+			//
+			break;
+		case EWeaponPickupRarity::MASTER:
+			//
+			break;
+		case EWeaponPickupRarity::LEGENDARY:
+			//
+			break;
+		void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
+	}
 }
 
 void ATentacleBase::SetParameters_Implementation(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_) {

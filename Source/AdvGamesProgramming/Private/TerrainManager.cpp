@@ -17,9 +17,30 @@ ATerrainManager::ATerrainManager()
 void ATerrainManager::BeginPlay()
 {
 	Super::BeginPlay();
+	FActorSpawnParameters SpawnParams = FActorSpawnParameters();
 	for(TActorIterator<ATerrainMover> It(GetWorld()); It; ++It)
 	{
 		TerrainObjects.Add(*It);
+		// duplicate, mirror and add to MirroredObjects
+		SpawnParams.Template = (*It);//Cast<ATerrainMover>(*It);
+		UClass* ClassToSpawn = (*It)->GetClass();
+		FVector MirroredLocation = FVector(-(*It)->GetActorLocation().X, 0.0f, 0.0f);
+		//ATerrainMover* DuplicatedTerrainMover = GetWorld()->SpawnActor<ATerrainMover>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
+		//AActor* DuplicatedActor = GetWorld()->SpawnActor<AActor>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
+		//ClassToSpawn* DuplicatedActor = GetWorld()->SpawnActor<ClassToSpawn>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
+		AActor* DuplicatedActor = GetWorld()->SpawnActor(ClassToSpawn, &FVector::ZeroVector, &FRotator::ZeroRotator, SpawnParams);
+		if (DuplicatedActor) {
+			UE_LOG(LogTemp, Warning, TEXT("Successfully spawned a duplicate Terrain Mover (as an AActor)"))
+			DuplicatedActor->SetActorLocation(MirroredLocation);
+		}
+		//ATerrainMover* DuplicatedTerrainMover = GetWorld()->SpawnActor<SpawnableSubclass>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
+		UE_LOG(LogTemp, Warning, TEXT("Successfully spawned a duplicate Terrain Mover (as an AActor)"))
+		ATerrainMover* DuplicatedTerrainMover = Cast<ATerrainMover>(DuplicatedActor);
+		if (DuplicatedTerrainMover) {
+			DuplicatedTerrainMover->MirrorStates();
+			MirroredObjects.Add(DuplicatedTerrainMover);
+			UE_LOG(LogTemp, Warning, TEXT("Successfully loaded and updated duplicated terrain mover"))
+		}
 	}
 }
 

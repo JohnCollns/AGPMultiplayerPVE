@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "AIManager.h"
 #include "HealthComponent.h"
+#include "AIManager.h"
 #include "EngineUtils.h"
 #include "Engine/GameEngine.h"
 #include "Net/UnrealNetwork.h"
