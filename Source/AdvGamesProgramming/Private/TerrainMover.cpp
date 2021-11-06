@@ -26,8 +26,8 @@ void ATerrainMover::Tick(float DeltaTime)
 
 	if(this->GetActorLocation() != Destination)
 	{
-		this->SetActorLocation(Destination);
-		FMath::Lerp();
+		this->SetActorLocation(FMath::Lerp(this->GetActorLocation(), Destination, DeltaTime));
+		//FMath::Lerp(this->GetActorLocation(), Destination, DeltaTime);
 		
 	}
 }
