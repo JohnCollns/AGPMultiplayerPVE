@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 //#include "TentacleSection.h"
+#include "WeaponPickup.h"
 #include "UObject/UObjectGlobals.h"
 #include "TentacleBase.generated.h"
 
@@ -54,6 +55,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float EarlyTerminationDistance;
 
+	// Character interacting with variables
+	UPROPERTY(EditAnywhere)
+	float Damage;
+	UPROPERTY(EditAnywhere)
+	float PushForceMagnitude;
+
 	UPROPERTY()
 	USceneComponent* Root;
 
@@ -79,10 +86,12 @@ public:
 
 	virtual bool ShouldTickIfViewportsOnly() const override;
 
+	void SetFromRarity(EWeaponPickupRarity Rarity);
 	UFUNCTION(NetMulticast, Reliable)
 	void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
 	//UFUNCTION(Server, Reliable)
 	//bool ServerIK(FVector& const Target);
+	void HurtAndPushPlayer(const FVector& Position, AActor* HitActor);
 
 	FVector FindEndLocation();
 	TArray<float> GetAngles(int Axis);

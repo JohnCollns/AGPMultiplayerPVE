@@ -3,6 +3,10 @@
 
 #include "TentacleBase.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/Character.h"
+#include "HealthComponent.h"
+#include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "TentacleSection.h"
 
 // Sets default values
@@ -23,6 +27,13 @@ ATentacleBase::ATentacleBase()
 	MinLearningRate = 0.02f;
 	MaxLearningRate = 0.085f; // this is quite fast, but you could reasonably want faster. 
 
+	MaxDynamismRange = 50.0f;
+	MinDynamismRange = 10.0f;
+	EarlyTerminationDistance = 0.8f;
+
+	Damage = 15.0f;
+	PushForceMagnitude = 10.0f;
+
 	NumberOfSections = 5;
 	SectionLength = 0.3f;
 	MaxThickness = 0.35f;
@@ -37,6 +48,14 @@ void ATentacleBase::BeginPlay()
 	Super::BeginPlay();
 	if (bRunInPlaymode)
 		bRunIKRealtime = true;
+	AActor* PlayerTarget = nullptr;// = Cast<AActor>();
+	for (TActorIterator<APlayerCharacter> It(GetWorld()); It; ++It)
+	{
+		PlayerTarget = *It;
+	}
+	if (PlayerTarget) // just for testing, set the target to a player when they spawn
+		TargetActor = PlayerTarget;
+	// UGameplayStatics::GetPlayerController(GetWorld(), 0) // returns an actor but its just a place in space for some reason
 }
 
 // Called every frame
@@ -90,8 +109,63 @@ void ATentacleBase::Tick(float DeltaTime)
 	}
 
 	if (bRunIKRealtime) {
-		IK(TargetActor->GetActorLocation());
+		bool ReachSuccess = false;
+		if (TargetActor)
+			ReachSuccess = IK(TargetActor->GetActorLocation());
+		if (ReachSuccess) {// Try to get the actor, damage them and push them away
+			// Get their character
+			ACharacter* StruckCharacter = Cast<ACharacter>(TargetActor);
+			if (StruckCharacter) {
+				// launch character
+				FVector LaunchVelo = (FindEndLocation() - TargetActor->GetActorLocation()) * PushForceMagnitude;
+				StruckCharacter->LaunchCharacter(LaunchVelo, true, true);
+				// damage character
+				APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(StruckCharacter);
+				if (PlayerCharacter) {
+					//UHealthComponent* HealthComp = PlayerCharacter->GetOwner()->GetComponentByClass<UHealthComponent>();
+					UHealthComponent* HealthComp = PlayerCharacter->GetOwner()->FindComponentByClass<UHealthComponent>();
+					if (HealthComp) {
+						HealthComp->OnTakeDamage(Damage);
+						UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Complete success on damaging and pushing in terms of code progression at least. ")) // delete this after debugging
+					} else
+						UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not get Health Component"))
+				} else
+					UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert ACharacter to PlayerCharacter"))
+			} else 
+				UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert target actor to ACharacter. "))
+			
+
+		}
 	}
+}
+
+void ATentacleBase::HurtAndPushPlayer(const FVector& Position, AActor* HitActor) {
+	ACharacter* StruckCharacter = Cast<ACharacter>(HitActor);
+	if (StruckCharacter) {
+		// launch character
+		//FVector LaunchVelo = (Position - HitActor->GetActorLocation()) * PushForceMagnitude;
+		FVector LaunchVelo = (HitActor->GetActorLocation() - Position) * PushForceMagnitude;
+		//UE_LOG(LogTemp, Warning, TEXT("Tentacle is pushing actor at: %s in direction: %s"), *HitActor->GetActorLocation().ToString(), *LaunchVelo.ToString())
+		StruckCharacter->LaunchCharacter(LaunchVelo, true, true);
+		// damage character
+		APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(StruckCharacter);
+		if (PlayerCharacter) {
+			//UHealthComponent* HealthComp = PlayerCharacter->GetOwner()->GetComponentByClass<UHealthComponent>();
+			//UHealthComponent* HealthComp = PlayerCharacter->GetOwner()->FindComponentByClass<UHealthComponent>();
+			UHealthComponent* HealthComp = PlayerCharacter->HealthComponent;
+			if (HealthComp) {
+				if (HealthComp->CurrentHealth > 0)
+					HealthComp->OnTakeDamage(Damage);
+				//UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Complete success on damaging and pushing in terms of code progression at least. ")) // delete this after debugging
+			}
+			else
+				UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not get Health Component"))
+		}
+		else
+			UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert ACharacter to PlayerCharacter"))
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert target actor to ACharacter. "))
 }
 
 void ATentacleBase::ConstructLimb() {
@@ -132,6 +206,10 @@ void ATentacleBase::ConstructLimb() {
 		else
 			NewSection->GenerateSection(i);
 	}
+}
+
+void ATentacleBase::SetFromRarity(EWeaponPickupRarity Rarity) {
+
 }
 
 void ATentacleBase::SetParameters_Implementation(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_) {

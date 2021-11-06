@@ -21,14 +21,14 @@ public:
 	// Sets default values for this actor's properties
 	ATentacleSection();
 	UPROPERTY()
-		float Length;
+	float Length;
 	float Thickness;
 	UPROPERTY()
-		FColor BaseColour;
+	FColor BaseColour;
 	UPROPERTY()
-		FColor TipColour;
+	FColor TipColour;
 	UPROPERTY()
-		ATentacleBase* Base;
+	ATentacleBase* Base;
 	USceneComponent* SceneComponent;
 
 	void GenerateSection(int16 ID);
@@ -39,14 +39,18 @@ public:
 	FVector CalculateEndAtAngle(float Angle, int Axis);
 	FVector CalculateEndFromPoint(FVector Start, float Angle, int Axis);
 
-
+	UFUNCTION()
+	void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& HitResult);
+	UFUNCTION()
+	void HitEvent(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
 	UMaterial* MaterialObject;
 	UMaterial* MatInstance;
 	UPROPERTY(VisibleAnywhere)
-		UMaterialInstanceDynamic* MatInstanceDynamic;
+	UMaterialInstanceDynamic* MatInstanceDynamic;
 	UMaterialInstanceConstant* ConstMaterial;
 
 protected:
@@ -54,7 +58,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-		float EffectiveLength;
+	float EffectiveLength;
 
 public:
 	// Called every frame
