@@ -34,4 +34,10 @@ public:
 	void ShiftStates();
 
 	TSubclassOf<ATerrainMover> SpawnableSubclass;
+
+	static ATerrainManager Instance;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SpawnObjects(ATerrainMover* Terrain);
+	
 };

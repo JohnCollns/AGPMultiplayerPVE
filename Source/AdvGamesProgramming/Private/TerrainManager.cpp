@@ -17,14 +17,31 @@ ATerrainManager::ATerrainManager()
 void ATerrainManager::BeginPlay()
 {
 	Super::BeginPlay();
+	/*if(Instance)
+	{
+		this->Destroy();
+		return;
+	}
+	else
+	{
+		Instance = this;
+	}*/
 	FActorSpawnParameters SpawnParams = FActorSpawnParameters();
 	for(TActorIterator<ATerrainMover> It(GetWorld()); It; ++It)
 	{
 		TerrainObjects.Add(*It);
+		
 		// duplicate, mirror and add to MirroredObjects
-		SpawnParams.Template = (*It);//Cast<ATerrainMover>(*It);
-		UClass* ClassToSpawn = (*It)->GetClass();
+		SpawnParams.Template = *It;//Cast<ATerrainMover>(*It);
 		FVector MirroredLocation = FVector(-(*It)->GetActorLocation().X, 0.0f, 0.0f);
+		if(GetWorld())
+		{
+			GetWorld()->SpawnActor<ATerrainMover>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
+			UE_LOG(LogTemp, Warning, TEXT("SPAWN THE BOI"));
+		}
+
+		/*
+		//UClass* ClassToSpawn = (*It)->GetClass();
 		//ATerrainMover* DuplicatedTerrainMover = GetWorld()->SpawnActor<ATerrainMover>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
 		//AActor* DuplicatedActor = GetWorld()->SpawnActor<AActor>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
 		//ClassToSpawn* DuplicatedActor = GetWorld()->SpawnActor<ClassToSpawn>(MirroredLocation, FRotator::ZeroRotator, SpawnParams);
@@ -40,8 +57,11 @@ void ATerrainManager::BeginPlay()
 			DuplicatedTerrainMover->MirrorStates();
 			MirroredObjects.Add(DuplicatedTerrainMover);
 			UE_LOG(LogTemp, Warning, TEXT("Successfully loaded and updated duplicated terrain mover"))
+			
 		}
+		*/
 	}
+	
 }
 
 // Called every frame
@@ -63,3 +83,9 @@ void ATerrainManager::ShiftStates()
 		(*It)->SetState(FMath::RandRange(0,(*It)->States.Num() -1));
 	}
 }
+
+void ATerrainManager::SpawnObjects_Implementation(ATerrainMover* Terrain)
+{
+	
+}
+
