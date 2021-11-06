@@ -80,7 +80,7 @@ public:
 
 	//Rarity Properites
 	UFUNCTION(BlueprintCallable)
-	void SetStats() override;
+	void SetStats();
 	UFUNCTION(Server, Reliable)
 	void SetModifier();
 
