@@ -26,6 +26,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TArray<ATerrainMover*> TerrainObjects;
+	UPROPERTY(BlueprintReadWrite)
+	TArray<ATerrainMover*> MirrorObjects;
 	UPROPERTY(VisibleAnywhere)
 	TArray<ATerrainMover*> MirroredObjects;
 	UPROPERTY(EditAnywhere)
