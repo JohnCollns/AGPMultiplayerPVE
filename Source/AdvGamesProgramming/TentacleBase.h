@@ -92,12 +92,16 @@ public:
 
 	virtual bool ShouldTickIfViewportsOnly() const override;
 
-	void SetFromRarity(EWeaponPickupRarity Rarity);
+	// Character/gameplay interaction functions
+	void SetFromRarity(EWeaponPickupRarity Rarity, AActor* Target);
 	UFUNCTION(NetMulticast, Reliable)
 	void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
 	//UFUNCTION(Server, Reliable)
 	//bool ServerIK(FVector& const Target);
 	void HurtAndPushPlayer(const FVector& Position, AActor* HitActor);
+	UFUNCTION(BlueprintCallable)
+	void OnTakeDamage(float DamageReceived);
+	void OnDeath();
 
 	FVector FindEndLocation();
 	TArray<float> GetAngles(int Axis);

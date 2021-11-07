@@ -208,24 +208,77 @@ void ATentacleBase::ConstructLimb() {
 	}
 }
 
-void ATentacleBase::SetFromRarity(EWeaponPickupRarity Rarity) {
+void ATentacleBase::SetFromRarity(EWeaponPickupRarity Rarity, AActor* Target) {
 	switch (Rarity) {
 		case EWeaponPickupRarity::COMMON:
-			//
+			NumberOfSections = 5;
+			SectionLength = 0.3f;
+			MaxThickness = 0.35f;
+			MinThickness = 0.2f;
 			BaseColour = FColor(2, 32, 8);
-			BaseColour = FColor(3, 77, 15);
+			TipColour = FColor(3, 77, 15);
+			Damage = 15.0f;
+			MaxHealth = 70.0f;
 			break;
 		case EWeaponPickupRarity::RARE:
-			//
+			NumberOfSections = 6;
+			SectionLength = 0.28f;
+			MaxThickness = 0.36f;
+			MinThickness = 0.18f;
+			BaseColour = FColor(7, 56, 38);
+			TipColour = FColor(224,5,5);
+			Damage = 20.0f;
+			MaxHealth = 85.0f;
+			MaxLearningRate = 0.1f;
 			break;
 		case EWeaponPickupRarity::MASTER:
-			//
+			NumberOfSections = 6;
+			SectionLength = 0.28f;
+			MaxThickness = 0.36f;
+			MinThickness = 0.18f;
+			BaseColour = FColor(4,10,4);
+			TipColour = FColor(2,5,2);
+			Damage = 25.0f;
+			MaxHealth = 100.0f;
+			MaxLearningRate = 0.15f;
 			break;
 		case EWeaponPickupRarity::LEGENDARY:
-			//
+			NumberOfSections = 7;
+			SectionLength = 0.32f;
+			MaxThickness = 0.45f;
+			MinThickness = 0.24f;
+			BaseColour = FColor(168,1,252);
+			TipColour = FColor(252, 252, 1);
+			Damage = 35.0f;
+			MaxHealth = 125.0f;
+			MaxLearningRate = 0.4f;
 			break;
-		void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
+		CurrentHealth = MaxHealth;
+		bAlive = true;
+		TargetActor = Target;
+		bRunIKRealtime = true;
+		ConstructLimb();
+		//void SetParameters(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_);
 	}
+}
+
+void ATentacleBase::OnTakeDamage(float DamageReceived) {
+	CurrentHealth -= DamageReceived;
+	if (CurrentHealth <= 0.0f)
+		OnDeath();
+}
+
+void ATentacleBase::OnDeath() {
+	bAlive = false;
+	bRunIKRealtime = false;
+	if (Sections.Num() > 0) {
+		for (AActor* Actor : Sections)
+			if (Actor)
+				Actor->Destroy();
+	}
+	else UE_LOG(LogTemp, Warning, TEXT("Sections already empty"))
+	Sections.Empty();
+	// *** alert the AI manager that this has been killed
 }
 
 void ATentacleBase::SetParameters_Implementation(int NumberOfSections_, float SectionLength_, float MaxThickness_, float MinThickness_, FColor BaseColor_, FColor TipColor_) {
