@@ -60,6 +60,12 @@ public:
 	float Damage;
 	UPROPERTY(EditAnywhere)
 	float PushForceMagnitude;
+	UPROPERTY(EditAnywhere)
+	float MaxHealth;
+	UPROPERTY(VisibleAnywhere)
+	float CurrentHealth;
+	UPROPERTY(VisibleAnywhere)
+	bool bAlive;
 
 	UPROPERTY()
 	USceneComponent* Root;

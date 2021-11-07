@@ -86,9 +86,9 @@ void ATerrainManager::ShiftStates()
 		(*It)->SetState(FMath::RandRange(0,(*It)->States.Num() -1));
 	}*/
 
-	for(int i = 0; i < TerrainObjects.Num(); i++)
+	for(int32 i = 0; i < TerrainObjects.Num(); i++)
 	{
-		int stateValue = FMath::RandRange(0,TerrainObjects.Num()-1);
+		int32 stateValue = FMath::RandRange(0,TerrainObjects[i]->States.Num()-1);
 		TerrainObjects[i]->SetState(stateValue);
 		MirrorObjects[i]->SetState(stateValue);
 	}

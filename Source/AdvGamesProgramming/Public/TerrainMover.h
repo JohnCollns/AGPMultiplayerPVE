@@ -26,13 +26,16 @@ public:
 	TArray<FVector> States;
 	UPROPERTY(EditAnywhere, Category = "TerrainStates")
 	FVector DefaultPosition;
-	UPROPERTY(EditAnywhere, Category = "TerrainStates")
+	UPROPERTY(Replicated, EditAnywhere, Category = "TerrainStates")
 	FVector Destination;
 
-	void SetState(int);
-	
+	UFUNCTION()
+	void SetState(int num);
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastSetState(int32 StateIndex);
+
 	UFUNCTION(BlueprintCallable)
 	void MirrorStates();
 
-	
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
