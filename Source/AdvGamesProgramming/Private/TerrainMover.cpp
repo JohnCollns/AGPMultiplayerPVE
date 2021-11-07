@@ -46,7 +46,7 @@ void ATerrainMover::SetState(int num)
 
 void ATerrainMover::MulticastSetState_Implementation(int32 StateIndex) {
 	Destination = FVector(DefaultPosition.X + States[StateIndex].X, DefaultPosition.Y + States[StateIndex].Y, DefaultPosition.Z + States[StateIndex].Z);
-	UE_LOG(LogTemp, Warning, TEXT("Client: %s recieved set state[%i] command, setting destination to: %f"), *GetName(), StateIndex, Destination.Z)
+	UE_LOG(LogTemp, Warning, TEXT("Client(?): %s recieved set state[%i] command, setting destination to: %f"), *GetName(), StateIndex, Destination.Z)
 }
 
 void ATerrainMover::MirrorStates() {

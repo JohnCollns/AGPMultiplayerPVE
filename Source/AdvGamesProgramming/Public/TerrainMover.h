@@ -26,7 +26,7 @@ public:
 	TArray<FVector> States;
 	UPROPERTY(EditAnywhere, Category = "TerrainStates")
 	FVector DefaultPosition;
-	UPROPERTY(Replicated, EditAnywhere, Category = "TerrainStates")
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite, Category = "TerrainStates")
 	FVector Destination;
 
 	UFUNCTION()
