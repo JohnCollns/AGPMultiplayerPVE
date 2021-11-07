@@ -65,11 +65,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(Server, Reliable)
+	
 	void AgentPatrol();
-	UFUNCTION(Server, Reliable)
+	
 	void AgentEngage();
-	UFUNCTION(Server, Reliable)
+	
 	void AgentEvade();
 
 	UFUNCTION(Server, Reliable)
@@ -113,6 +113,7 @@ public:
 
 	float EnemyRarityIndex;
 
+	UFUNCTION(Server, Reliable)
 	void CreateDrop();
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

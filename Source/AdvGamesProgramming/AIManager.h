@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Net/UnrealNetwork.h"
 #include "AIManager.generated.h"
+
 
 UCLASS()
 class ADVGAMESPROGRAMMING_API AAIManager : public AActor
@@ -39,12 +41,14 @@ public:
 	UPROPERTY(EditAnywhere)
 		int32 RoundNumber;
 
+	UFUNCTION(Server, Reliable)
 	void ReduceEnemyEntities();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	TArray<ANavigationNode*> GeneratePath(ANavigationNode* StartNode, ANavigationNode* EndNode);
+	UFUNCTION(Server, Reliable)
 	void PopulateNodes();
 	UFUNCTION(Server, Reliable)
 	void CreateAgents();
@@ -62,9 +66,12 @@ public:
 	*/
 	ANavigationNode* FindFurthestNode(const FVector& Location);
 
+	UFUNCTION(Server, Reliable)
 	void GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height);
+	UFUNCTION(Server, Reliable)
 	void AddConnection(ANavigationNode* FromNode, ANavigationNode* ToNode);
 
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 private:
 
 	TArray<ANavigationNode*> ReconstructPath(ANavigationNode* StartNode, ANavigationNode* EndNode);

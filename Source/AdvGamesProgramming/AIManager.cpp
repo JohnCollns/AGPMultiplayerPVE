@@ -123,7 +123,7 @@ TArray<ANavigationNode*> AAIManager::ReconstructPath(ANavigationNode* StartNode,
 	return Path;
 }
 
-void AAIManager::PopulateNodes()
+void AAIManager::PopulateNodes_Implementation()
 {
 	for (TActorIterator<ANavigationNode> It(GetWorld()); It; ++It)
 	{
@@ -207,7 +207,7 @@ ANavigationNode* AAIManager::FindFurthestNode(const FVector& Location)
 	return FurthestNode;
 }
 
-void AAIManager::GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height)
+void AAIManager::GenerateNodes_Implementation(const TArray<FVector>& Vertices, int32 Width, int32 Height)
 {
 	// Destroy all the ANavigationNodes
 	for (TActorIterator<ANavigationNode> It(GetWorld()); It; ++It)
@@ -280,7 +280,7 @@ void AAIManager::GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int
 
 }
 
-void AAIManager::AddConnection(ANavigationNode* FromNode, ANavigationNode* ToNode)
+void AAIManager::AddConnection_Implementation(ANavigationNode* FromNode, ANavigationNode* ToNode)
 {
 	FVector DirectionVector = ToNode->GetActorLocation() - FromNode->GetActorLocation();
 	DirectionVector.Normalize();
@@ -294,11 +294,17 @@ void AAIManager::AddConnection(ANavigationNode* FromNode, ANavigationNode* ToNod
 	}
 }
 
-void AAIManager::ReduceEnemyEntities()
+void AAIManager::ReduceEnemyEntities_Implementation()
 {
 	EnemyEntities -= 1;
 	UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
 }
 
+void AAIManager::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	DOREPLIFETIME(AAIManager, RoundNumber);
+	DOREPLIFETIME(AAIManager, EnemyEntities);
 
+}

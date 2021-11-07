@@ -106,7 +106,7 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 }
 
-void AEnemyCharacter::AgentPatrol_Implementation()
+void AEnemyCharacter::AgentPatrol()
 {
 	if (Path.Num() == 0)
 	{
@@ -117,7 +117,7 @@ void AEnemyCharacter::AgentPatrol_Implementation()
 	}
 }
 
-void AEnemyCharacter::AgentEngage_Implementation()
+void AEnemyCharacter::AgentEngage()
 {
 	
 	if (bCanSeeActor && DetectedActor)
@@ -133,7 +133,7 @@ void AEnemyCharacter::AgentEngage_Implementation()
 	
 }
 
-void AEnemyCharacter::AgentEvade_Implementation()
+void AEnemyCharacter::AgentEvade()
 {
 	
 	if (bCanSeeActor && DetectedActor)
@@ -258,7 +258,7 @@ void AEnemyCharacter::SetStats()
 	AdjustEnemy();
 }
 
-void AEnemyCharacter::CreateDrop()
+void AEnemyCharacter::CreateDrop_Implementation()
 {
 	//GetWorld()->SpawnActor<APickup>(RegularDrop, this->GetActorLocation(), this->GetActorRotation());
 
