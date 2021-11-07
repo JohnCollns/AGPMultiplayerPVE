@@ -26,10 +26,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TArray<ATerrainMover*> TerrainObjects;
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	TArray<ATerrainMover*> MirrorObjects;
-	UPROPERTY(VisibleAnywhere)
-	TArray<ATerrainMover*> MirroredObjects;
+	/*UPROPERTY(VisibleAnywhere)
+	TArray<ATerrainMover*> MirroredObjects;*/
 	UPROPERTY(EditAnywhere)
 	bool RunThisShitLmao;
 

@@ -31,6 +31,8 @@ public:
 
 	void SetState(int);
 	
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void MirrorStates();
+
+	
 };

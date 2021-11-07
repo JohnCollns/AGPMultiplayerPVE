@@ -30,7 +30,7 @@ void ATerrainManager::BeginPlay()
 	for(TActorIterator<ATerrainMover> It(GetWorld()); It; ++It)
 	{
 		TerrainObjects.Add(*It);
-		SpawnObjects(*It);
+		//SpawnObjects(*It);
 		/*
 		// duplicate, mirror and add to MirroredObjects
 		SpawnParams.Template = *It;//Cast<ATerrainMover>(*It);
@@ -62,6 +62,8 @@ void ATerrainManager::BeginPlay()
 		}
 		*/
 	}
+	for (int32 i = 0; i < TerrainObjects.Num(); i++)
+		SpawnObjects(TerrainObjects[i]);
 	
 }
 
@@ -88,12 +90,16 @@ void ATerrainManager::ShiftStates()
 	{
 		int stateValue = FMath::RandRange(0,TerrainObjects.Num()-1);
 		TerrainObjects[i]->SetState(stateValue);
-		MirroredObjects[i]->SetState(stateValue);
+		MirrorObjects[i]->SetState(stateValue);
 	}
 }
 
-void ATerrainManager::SpawnObjects_Implementation(ATerrainMover* Terrain)
-{
-	
-}
+//void ATerrainManager::SpawnObjects(ATerrainMover* Terrain)//SpawnObjects_Implementation
+//{
+//	
+//}
 
+void ATerrainManager::SpawnObjects_Implementation(ATerrainMover* Terrain)//SpawnObjects_Implementation
+{
+
+}
