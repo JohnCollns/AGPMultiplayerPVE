@@ -27,7 +27,6 @@ void ATerrainMover::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//if(this->GetActorLocation() != Destination)
-	if(Destination.IsZero()){}
 	if(!(GetActorLocation() - Destination).IsNearlyZero())
 	{
 		this->SetActorLocation(FMath::Lerp(this->GetActorLocation(), Destination, DeltaTime));

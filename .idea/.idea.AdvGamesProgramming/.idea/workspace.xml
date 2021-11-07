@@ -7,7 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0b5227bd-6803-4863-8e7c-83cef60643ad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AdvGamesProgramming.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/AdvGamesProgramming.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BaseWall_1x1_Wall.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BaseWall_1x1_Wall.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/FinalLevel.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/FinalLevel.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/Private/TerrainMover.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/Private/TerrainMover.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -258,7 +259,7 @@
       <workItem from="1636119564414" duration="3798000" />
       <workItem from="1636179402919" duration="872000" />
       <workItem from="1636195258660" duration="7430000" />
-      <workItem from="1636276248840" duration="372000" />
+      <workItem from="1636276248840" duration="1806000" />
     </task>
     <servers />
   </component>
