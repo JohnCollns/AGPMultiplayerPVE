@@ -33,7 +33,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool RunThisShitLmao;
 
-	void ShiftStates();
+	
+	//void ShiftStates();
+
+	UFUNCTION(Server, Reliable)
+	void ServerShiftStates();
 
 	TSubclassOf<ATerrainMover> SpawnableSubclass;
 

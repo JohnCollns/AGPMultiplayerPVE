@@ -10,7 +10,11 @@ ATerrainManager::ATerrainManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	if(!this->HasAuthority())
+	{
+		this->Destroy();
+	}
+	//bReplicates = true;
 }
 
 // Called when the game starts or when spawned
@@ -73,19 +77,31 @@ void ATerrainManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if(RunThisShitLmao)
 	{
-		ShiftStates();
+		ServerShiftStates();
 		RunThisShitLmao = false;
 	}
-
+	
 }
 
-void ATerrainManager::ShiftStates()
-{
+//void ATerrainManager::ShiftStates()
+//{
 	/*for(auto It = TerrainObjects.CreateIterator(); It; It++)
 	{
 		(*It)->SetState(FMath::RandRange(0,(*It)->States.Num() -1));
 	}*/
 
+/*	for(int32 i = 0; i < TerrainObjects.Num(); i++)
+	{
+		int32 stateValue = FMath::RandRange(0,TerrainObjects[i]->States.Num()-1);
+		TerrainObjects[i]->SetState(stateValue);
+		TerrainObjects[i]->MulticastSetState(stateValue);
+		MirrorObjects[i]->SetState(stateValue);
+		MirrorObjects[i]->MulticastSetState(stateValue);
+	}
+}*/
+
+void ATerrainManager::ServerShiftStates_Implementation()
+{
 	for(int32 i = 0; i < TerrainObjects.Num(); i++)
 	{
 		int32 stateValue = FMath::RandRange(0,TerrainObjects[i]->States.Num()-1);
@@ -95,6 +111,7 @@ void ATerrainManager::ShiftStates()
 		MirrorObjects[i]->MulticastSetState(stateValue);
 	}
 }
+
 
 //void ATerrainManager::SpawnObjects(ATerrainMover* Terrain)//SpawnObjects_Implementation
 //{
