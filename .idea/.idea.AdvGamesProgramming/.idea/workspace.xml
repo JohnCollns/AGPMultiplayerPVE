@@ -7,8 +7,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0b5227bd-6803-4863-8e7c-83cef60643ad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AdvGamesProgramming/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/Private/TerrainManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/Private/TerrainManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/Public/TerrainManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/Public/TerrainManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdvGamesProgramming.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/AdvGamesProgramming.uproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/EnemyCharacterBlueprint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/EnemyCharacterBlueprint.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Levels/WillTest.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/WillTest.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/AIManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/AIManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AdvGamesProgramming/EnemyCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AdvGamesProgramming/EnemyCharacter.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,6 +262,8 @@
       <workItem from="1636179402919" duration="872000" />
       <workItem from="1636195258660" duration="7430000" />
       <workItem from="1636276248840" duration="7975000" />
+      <workItem from="1636361939206" duration="2850000" />
+      <workItem from="1636368074219" duration="318000" />
     </task>
     <servers />
   </component>

@@ -42,10 +42,6 @@ void ARegularPickup::OnGenerate()
 	{
 		PickupStat = EPickupStat::DAMAGE;
 	}
-	else if (RandomModifier <= 4.0f)
-	{
-		PickupStat = EPickupStat::ACCURACY;
-	}
 	else
 	{
 		PickupStat = EPickupStat::VELOCITY;
