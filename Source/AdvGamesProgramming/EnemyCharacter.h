@@ -119,7 +119,7 @@ public:
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 private:
-	UFUNCTION(Server, Reliable)
+	//UFUNCTION(Server, Reliable)
 	void MoveAlongPath();
 	void GenerateRandomBoolArray(int32 ArrayLength, int32 NumTrue, TArray<bool>& RandBoolArray);
 };

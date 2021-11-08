@@ -166,7 +166,7 @@ void AEnemyCharacter::SensePlayer_Implementation(AActor* ActorSensed, FAIStimulu
 	
 }
 
-void AEnemyCharacter::MoveAlongPath_Implementation()
+void AEnemyCharacter::MoveAlongPath()
 {
 	
 	if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
