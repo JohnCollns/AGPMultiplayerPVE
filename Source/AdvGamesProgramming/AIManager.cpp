@@ -24,13 +24,18 @@ void AAIManager::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (!this->HasAuthority())
+	{
+		this->Destroy();
+	}
+	
 	if (AllNodes.Num() == 0)
 	{
 		//UE_LOG(LogTemp, Display, TEXT("POPULATING NODES"))
 		PopulateNodes();
 	}
 	CreateAgents();
-	//UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
+	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
 
 // Called every frame
@@ -151,6 +156,7 @@ void AAIManager::CreateAgents_Implementation()
 					SpawnedEnemy->SetStats();
 					SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
 					EnemyEntities += 1;
+					UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
 				}
 			}
 			else
@@ -163,6 +169,7 @@ void AAIManager::CreateAgents_Implementation()
 				SpawnedEnemy->SetStats();
 				SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
 				EnemyEntities += 1;
+				UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
 			}
 		}
 	}
@@ -297,7 +304,7 @@ void AAIManager::AddConnection_Implementation(ANavigationNode* FromNode, ANaviga
 void AAIManager::ReduceEnemyEntities_Implementation()
 {
 	EnemyEntities -= 1;
-	UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
+	UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities);
 }
 
 void AAIManager::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
