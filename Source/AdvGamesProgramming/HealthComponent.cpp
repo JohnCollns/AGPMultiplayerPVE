@@ -17,13 +17,6 @@ UHealthComponent::UHealthComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	MaxHealth = 100.0f;
 	// ...
-	for (TObjectIterator<AAIManager> Itr; Itr; ++Itr)
-	{
-		if (Itr->IsA(AAIManager::StaticClass()))
-		{
-			Manager = *Itr;
-		}
-	}
 }
 
 
@@ -93,10 +86,7 @@ void UHealthComponent::OnDeath()
 	
 	if (Enemy)
 	{
-		if (Manager)
-		{
-			Manager->ReduceEnemyEntities();
-		}
+		Enemy->Death();
 		Enemy->CreateDrop();
 		Enemy->Destroy();
 	}

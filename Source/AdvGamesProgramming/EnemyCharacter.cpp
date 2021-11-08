@@ -3,7 +3,9 @@
 
 #include "EnemyCharacter.h"
 #include "AIManager.h"
+#include "AIManagerP2.h"
 #include "NavigationNode.h"
+#include "NavigationNodeP2.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "HealthComponent.h"
@@ -109,12 +111,14 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void AEnemyCharacter::AgentPatrol()
 {
 	
-	if (Path.Num() == 0)
+	if (Path.Num() == 0 && Manager)
 	{
-		if (Manager)
-		{
-			Path = Manager->GeneratePath(CurrentNode, Manager->AllNodes[FMath::RandRange(0, Manager->AllNodes.Num() - 1)]);
-		}
+		Path = Manager->GeneratePath(CurrentNode, Manager->AllNodes[FMath::RandRange(0, Manager->AllNodes.Num() - 1)]);
+	}
+
+	else if (PathP2.Num() == 0 && ManagerP2)
+	{
+		PathP2 = ManagerP2->GeneratePath(CurrentNodeP2, ManagerP2->AllNodes[FMath::RandRange(0, Manager->AllNodes.Num() - 1)]);
 	}
 	
 }
@@ -127,10 +131,17 @@ void AEnemyCharacter::AgentEngage()
 		FVector FireDirection = DetectedActor->GetActorLocation() - GetActorLocation();
 		Fire(FireDirection);
 	}
-	if (Path.Num() == 0 && DetectedActor)
+
+	if (Path.Num() == 0 && DetectedActor && Manager)
 	{
 		ANavigationNode* NearestNode = Manager->FindNearestNode(DetectedActor->GetActorLocation());
 		Path = Manager->GeneratePath(CurrentNode, NearestNode);
+	}
+
+	else if (PathP2.Num() == 0 && DetectedActor && ManagerP2)
+	{
+		ANavigationNodeP2* NearestNode = ManagerP2->FindNearestNode(DetectedActor->GetActorLocation());
+		PathP2 = ManagerP2->GeneratePath(CurrentNodeP2, NearestNode);
 	}
 	
 }
@@ -143,10 +154,17 @@ void AEnemyCharacter::AgentEvade()
 		FVector FireDirection = DetectedActor->GetActorLocation() - GetActorLocation();
 		Fire(FireDirection);
 	}
-	if (Path.Num() == 0 && DetectedActor)
+
+	if (Path.Num() == 0 && DetectedActor && Manager)
 	{
 		ANavigationNode* FurthestNode = Manager->FindFurthestNode(DetectedActor->GetActorLocation());
 		Path = Manager->GeneratePath(CurrentNode, FurthestNode);
+	}
+
+	else if (PathP2.Num() == 0 && DetectedActor && ManagerP2)
+	{
+		ANavigationNodeP2* FurthestNode = ManagerP2->FindFurthestNode(DetectedActor->GetActorLocation());
+		PathP2 = ManagerP2->GeneratePath(CurrentNodeP2, FurthestNode);
 	}
 	
 }
@@ -172,14 +190,30 @@ void AEnemyCharacter::MoveAlongPath()
 {
 	if (GetLocalRole() == ROLE_Authority)
 	{
-		if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
-			&& Path.Num() > 0)
+		if (Manager)
 		{
-			CurrentNode = Path.Pop();
+			if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
+				&& Path.Num() > 0)
+			{
+				CurrentNode = Path.Pop();
+			}
+			else if (!(GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy))
+			{
+				AddMovementInput(CurrentNode->GetActorLocation() - GetActorLocation());
+			}
 		}
-		else if (!(GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy))
+		
+		else if (ManagerP2)
 		{
-			AddMovementInput(CurrentNode->GetActorLocation() - GetActorLocation());
+			if ((GetActorLocation() - CurrentNodeP2->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
+				&& PathP2.Num() > 0)
+			{
+				CurrentNodeP2 = PathP2.Pop();
+			}
+			else if (!(GetActorLocation() - CurrentNodeP2->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy))
+			{
+				AddMovementInput(CurrentNodeP2->GetActorLocation() - GetActorLocation());
+			}
 		}
 	}
 }
@@ -207,6 +241,15 @@ void AEnemyCharacter::SetModifier_Implementation()
 	if (Manager)
 	{
 		RoundModifier = pow(DifficultyConstant, Manager->RoundNumber - 1);
+		if (SwarmEnemy)
+		{
+			RoundModifier /= 2;
+		}
+	}
+
+	else if (ManagerP2)
+	{
+		RoundModifier = pow(DifficultyConstant, ManagerP2->RoundNumber - 1);
 		if (SwarmEnemy)
 		{
 			RoundModifier /= 2;
@@ -282,6 +325,19 @@ void AEnemyCharacter::CreateDrop_Implementation()
 		}
 	}
 
+}
+
+void AEnemyCharacter::Death()
+{
+	if (Manager)
+	{
+		Manager->ReduceEnemyEntities();
+	}
+
+	else if (ManagerP2)
+	{
+		ManagerP2->ReduceEnemyEntities();
+	}
 }
 
 void AEnemyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

@@ -48,6 +48,11 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	class AAIManager* Manager;
 
+	TArray <class ANavigationNodeP2* > PathP2;
+	ANavigationNodeP2* CurrentNodeP2;
+	UPROPERTY(BlueprintReadWrite)
+	class AAIManagerP2* ManagerP2;
+
 	UPROPERTY(EditAnywhere, meta = (UIMin = "10.0", UIMax = "1000.0", ClampMin = "10.0", ClampMax = "1000.0"))
 		float PathfindingNodeAccuracy;
 
@@ -116,6 +121,8 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void CreateDrop();
+
+	void Death();
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 private:
