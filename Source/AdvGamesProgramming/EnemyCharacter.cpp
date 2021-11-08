@@ -108,6 +108,7 @@ void AEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void AEnemyCharacter::AgentPatrol()
 {
+	
 	if (Path.Num() == 0)
 	{
 		if (Manager)
@@ -115,6 +116,7 @@ void AEnemyCharacter::AgentPatrol()
 			Path = Manager->GeneratePath(CurrentNode, Manager->AllNodes[FMath::RandRange(0, Manager->AllNodes.Num() - 1)]);
 		}
 	}
+	
 }
 
 void AEnemyCharacter::AgentEngage()
@@ -168,17 +170,18 @@ void AEnemyCharacter::SensePlayer_Implementation(AActor* ActorSensed, FAIStimulu
 
 void AEnemyCharacter::MoveAlongPath()
 {
-	
-	if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
-		&& Path.Num() > 0)
+	if (GetLocalRole() == ROLE_Authority)
 	{
-		CurrentNode = Path.Pop();
+		if ((GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy)
+			&& Path.Num() > 0)
+		{
+			CurrentNode = Path.Pop();
+		}
+		else if (!(GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy))
+		{
+			AddMovementInput(CurrentNode->GetActorLocation() - GetActorLocation());
+		}
 	}
-	else if (!(GetActorLocation() - CurrentNode->GetActorLocation()).IsNearlyZero(PathfindingNodeAccuracy))
-	{
-		AddMovementInput(CurrentNode->GetActorLocation() - GetActorLocation());
-	}
-	
 }
 
 void AEnemyCharacter::GenerateRandomBoolArray(int32 ArrayLength, int32 NumTrue, TArray<bool>& RandBoolArray)
@@ -213,6 +216,7 @@ void AEnemyCharacter::SetModifier_Implementation()
 
 void AEnemyCharacter::SetStats()
 {
+	
 	float RarityValue = FMath::RandRange(0.0f, 1.0f);
 	TArray<bool> RandBoolArray;
 
@@ -256,6 +260,7 @@ void AEnemyCharacter::SetStats()
 	WeaponAccuracy = (RandBoolArray[3] ? FMath::RandRange(0.95f, 1.0f) * RoundModifier : FMath::RandRange(0.8f, 0.95f) * RoundModifier);
 
 	AdjustEnemy();
+	
 }
 
 void AEnemyCharacter::CreateDrop_Implementation()

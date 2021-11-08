@@ -52,6 +52,7 @@ void AAIManager::Tick(float DeltaTime)
 
 TArray<ANavigationNode*> AAIManager::GeneratePath(ANavigationNode* StartNode, ANavigationNode* EndNode)
 {
+	
 	// Create the open set array and add the start node
 	TArray<ANavigationNode*> OpenSet;
 	OpenSet.Add(StartNode);
@@ -114,6 +115,7 @@ TArray<ANavigationNode*> AAIManager::GeneratePath(ANavigationNode* StartNode, AN
 	// If it exists this loop then no valid path has been found so return an empty path.
 
 	return TArray<ANavigationNode*>();
+	
 }
 
 TArray<ANavigationNode*> AAIManager::ReconstructPath(ANavigationNode* StartNode, ANavigationNode* EndNode)
@@ -313,5 +315,4 @@ void AAIManager::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifeti
 
 	DOREPLIFETIME(AAIManager, RoundNumber);
 	DOREPLIFETIME(AAIManager, EnemyEntities);
-
 }
