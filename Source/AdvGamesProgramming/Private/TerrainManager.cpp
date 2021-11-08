@@ -21,6 +21,10 @@ ATerrainManager::ATerrainManager()
 void ATerrainManager::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!this->HasAuthority())
+	{
+		this->Destroy();
+	}
 	/*if(Instance)
 	{
 		this->Destroy();
