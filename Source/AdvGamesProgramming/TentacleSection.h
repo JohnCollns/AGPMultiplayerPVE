@@ -27,7 +27,7 @@ public:
 	FColor BaseColour;
 	UPROPERTY()
 	FColor TipColour;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	ATentacleBase* Base;
 	USceneComponent* SceneComponent;
 

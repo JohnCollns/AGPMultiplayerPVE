@@ -62,7 +62,7 @@ public:
 	float PushForceMagnitude;
 	UPROPERTY(EditAnywhere)
 	float MaxHealth;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float CurrentHealth;
 	UPROPERTY(VisibleAnywhere)
 	bool bAlive;

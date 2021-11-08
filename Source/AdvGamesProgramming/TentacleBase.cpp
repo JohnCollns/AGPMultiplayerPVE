@@ -56,6 +56,7 @@ void ATentacleBase::BeginPlay()
 	if (PlayerTarget) // just for testing, set the target to a player when they spawn
 		TargetActor = PlayerTarget;
 	// UGameplayStatics::GetPlayerController(GetWorld(), 0) // returns an actor but its just a place in space for some reason
+	CurrentHealth = MaxHealth; // I actually don't want this in the final code, but just for testing. 
 }
 
 // Called every frame
@@ -165,7 +166,7 @@ void ATentacleBase::HurtAndPushPlayer(const FVector& Position, AActor* HitActor)
 			UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert ACharacter to PlayerCharacter"))
 	}
 	else
-		UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert target actor to ACharacter. "))
+		UE_LOG(LogTemp, Warning, TEXT("Tentacle Base - Could not convert target actor: %s to ACharacter. "), *HitActor->GetName())
 }
 
 void ATentacleBase::ConstructLimb() {
@@ -266,6 +267,7 @@ void ATentacleBase::OnTakeDamage(float DamageReceived) {
 	CurrentHealth -= DamageReceived;
 	if (CurrentHealth <= 0.0f)
 		OnDeath();
+	UE_LOG(LogTemp, Warning, TEXT("Tentacle took damage: %f, health remaining: %f"), DamageReceived, CurrentHealth)
 }
 
 void ATentacleBase::OnDeath() {

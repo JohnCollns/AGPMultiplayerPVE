@@ -22,7 +22,8 @@ ATentacleSection::ATentacleSection()
 		Mesh->SetWorldScale3D(FVector(Thickness, Thickness, Length));
 		Mesh->SetRelativeLocation(FVector(0.0f, 0.0f, Length / 2));// This will make the mesh sit above the scene component, so that the bottom of the mesh is at the scene component. 
 		Mesh->SetNotifyRigidBodyCollision(true);
-		Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+		//Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+		Mesh->SetCollisionProfileName(TEXT("TentaclePreset"));
 		Mesh->OnComponentBeginOverlap.AddDynamic(this, &ATentacleSection::BeginOverlap);
 		Mesh->OnComponentHit.AddDynamic(this, &ATentacleSection::HitEvent);
 	}
@@ -53,14 +54,14 @@ void ATentacleSection::BeginPlay()
 }
 
 void ATentacleSection::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& HitResult) {
-	UE_LOG(LogTemp, Warning, TEXT("Tentacle section has run Begin Overlap. Collided with %s"), *OtherActor->GetName())
+	//UE_LOG(LogTemp, Warning, TEXT("Tentacle section has run Begin Overlap. Collided with %s"), *OtherActor->GetName())
 	if (Base)
 		Base->HurtAndPushPlayer(FindSectionEnd(), OtherActor);
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Tentacle section Cannot find its Base"))
 }
 void ATentacleSection::HitEvent(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-	UE_LOG(LogTemp, Warning, TEXT("Tentacle section has run Hit Event. Collided with %s"), *OtherActor->GetName())
+	//UE_LOG(LogTemp, Warning, TEXT("Tentacle section has run Hit Event. Collided with %s"), *OtherActor->GetName())
 	if (Base)
 		Base->HurtAndPushPlayer(FindSectionEnd(), OtherActor);
 	else
