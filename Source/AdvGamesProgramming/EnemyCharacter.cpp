@@ -29,6 +29,11 @@ AEnemyCharacter::AEnemyCharacter()
 			Player = *Itr;
 		}
 	}
+
+	if (!this->HasAuthority())
+	{
+		this->Destroy();
+	}
 }
 
 // Called when the game starts or when spawned
@@ -60,17 +65,36 @@ void AEnemyCharacter::Tick(float DeltaTime)
 
 	if (CurrentAgentState == AgentState::PATROL)
 	{
-		AgentPatrol();
-		if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() >= 40.0f)
+		if (Manager)
 		{
-			CurrentAgentState = AgentState::ENGAGE;
-			Path.Empty();
+			AgentPatrol();
+			if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() >= 40.0f)
+			{
+				CurrentAgentState = AgentState::ENGAGE;
+				Path.Empty();
+			}
+			else if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() < 40.0f)
+			{
+				CurrentAgentState = AgentState::EVADE;
+				Path.Empty();
+			}
 		}
-		else if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() < 40.0f)
+
+		else if (ManagerP2)
 		{
-			CurrentAgentState = AgentState::EVADE;
-			Path.Empty();
+			AgentPatrol();
+			if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() >= 40.0f)
+			{
+				CurrentAgentState = AgentState::ENGAGE;
+				PathP2.Empty();
+			}
+			else if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() < 40.0f)
+			{
+				CurrentAgentState = AgentState::EVADE;
+				PathP2.Empty();
+			}
 		}
+		
 	}
 	else if (CurrentAgentState == AgentState::ENGAGE)
 	{
@@ -82,7 +106,10 @@ void AEnemyCharacter::Tick(float DeltaTime)
 		else if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() < 40.0f)
 		{
 			CurrentAgentState = AgentState::EVADE;
-			Path.Empty();
+			if (Manager)
+				Path.Empty();
+			else if (ManagerP2)
+				PathP2.Empty();
 		}
 	}
 	else if (CurrentAgentState == AgentState::EVADE)
@@ -95,7 +122,10 @@ void AEnemyCharacter::Tick(float DeltaTime)
 		else if (bCanSeeActor && HealthComponent->HealthPercentageRemaining() >= 40.0f)
 		{
 			CurrentAgentState = AgentState::ENGAGE;
-			Path.Empty();
+			if (Manager)
+				Path.Empty();
+			else if (ManagerP2)
+				PathP2.Empty();
 		}
 	}
 	MoveAlongPath();
@@ -118,7 +148,7 @@ void AEnemyCharacter::AgentPatrol()
 
 	else if (PathP2.Num() == 0 && ManagerP2)
 	{
-		PathP2 = ManagerP2->GeneratePath(CurrentNodeP2, ManagerP2->AllNodes[FMath::RandRange(0, Manager->AllNodes.Num() - 1)]);
+		PathP2 = ManagerP2->GeneratePath(CurrentNodeP2, ManagerP2->AllNodes[FMath::RandRange(0, ManagerP2->AllNodes.Num() - 1)]);
 	}
 	
 }

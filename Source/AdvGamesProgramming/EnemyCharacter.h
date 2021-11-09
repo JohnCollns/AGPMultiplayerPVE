@@ -61,6 +61,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 		AgentState CurrentAgentState;
 
+	UPROPERTY(BlueprintReadWrite)
 	class UAIPerceptionComponent* PerceptionComponent;
 	AActor* DetectedActor;
 	bool bCanSeeActor;
