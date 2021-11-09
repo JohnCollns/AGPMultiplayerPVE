@@ -42,10 +42,9 @@ void AAIManagerP2::BeginPlay()
 void AAIManagerP2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (EnemyEntities == 0)
+	if (EnemyEntities == 0 && !PVP)
 	{
-		RoundNumber += 1;
-		CreateAgents();
+		GameManager->RoundEnd();
 	}
 
 }

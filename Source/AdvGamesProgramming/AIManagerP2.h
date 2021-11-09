@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Net/UnrealNetwork.h"
+#include "GameManager.h"
 #include "AIManagerP2.generated.h"
 
 
@@ -72,6 +73,9 @@ public:
 		void AddConnection(ANavigationNodeP2* FromNode, ANavigationNodeP2* ToNode);
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	class AGameManager* GameManager;
+	bool PVP;
 private:
 
 	TArray<ANavigationNodeP2*> ReconstructPath(ANavigationNodeP2* StartNode, ANavigationNodeP2* EndNode);

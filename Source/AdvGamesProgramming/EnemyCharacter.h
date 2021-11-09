@@ -79,7 +79,7 @@ public:
 	
 	void AgentEvade();
 
-
+	UFUNCTION(Server, Reliable)
 	void SensePlayer(AActor* ActorSensed, FAIStimulus Stimulus);
 
 	UFUNCTION(BlueprintImplementableEvent)
