@@ -36,9 +36,10 @@ public:
 	UPROPERTY(EditAnywhere)
 		float AllowedAngle;
 
-
+	UPROPERTY(EditAnywhere, Replicated)
 	int32 EnemyEntities;
-	UPROPERTY(EditAnywhere)
+	
+	UPROPERTY(EditAnywhere, Replicated)
 		int32 RoundNumber;
 
 	UFUNCTION(Server, Reliable)
