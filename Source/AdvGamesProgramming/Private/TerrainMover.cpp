@@ -17,7 +17,7 @@ ATerrainMover::ATerrainMover()
 void ATerrainMover::BeginPlay()
 {
 	Super::BeginPlay();
-	DefaultPosition = GetActorLocation(); // we might not want this, as it overrides the editor settings
+	DefaultPosition = FVector(GetActorLocation().X,GetActorLocation().Y,0); // we might not want this, as it overrides the editor settings
 	Destination = DefaultPosition;
 }
 

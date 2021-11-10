@@ -70,9 +70,6 @@ void ATerrainManager::BeginPlay()
 		}
 		*/
 	}
-	if(RunThisShitLmao){
-		ServerShiftStates_Implementation();
-	}
 	for (int32 i = 0; i < TerrainObjects.Num(); i++)
 		SpawnObjects(TerrainObjects[i]);
 	
