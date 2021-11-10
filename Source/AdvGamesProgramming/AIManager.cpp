@@ -149,28 +149,37 @@ void AAIManager::CreateAgents_Implementation()
 			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
 			if (RandomEnemyType < 0.50f && Players.Num() > 0)
 			{
-				UE_LOG(LogTemp, Warning , TEXT("GOT HERE FGUVIEHGUHG %i"), Players.Num())
-					int32 RandomTentacle = FMath::RandRange(0, Tentacles.Num() - 1);
+				UE_LOG(LogTemp, Warning , TEXT("GOT HERE Number of elements in PLayer array %i"), Players.Num())
+				UE_LOG(LogTemp, Warning , TEXT("GOT HERE Number of elements in Tentacles array %i"), Tentacles.Num())
+				UE_LOG(LogTemp, Warning , TEXT("Name of the player: %s"), *Players[0]->GetName())
 
-					float TentacleRarity = FMath::RandRange(0.0f, 1.0f);
+				AActor* PlayerTarget = nullptr;// = Cast<AActor>();
+				for (TActorIterator<APlayerCharacter> It(GetWorld()); It; ++It)
+				{
+					PlayerTarget = *It;
+				}
+				
+				int32 RandomTentacle = FMath::RandRange(0, Tentacles.Num() - 1);
 
-					if (TentacleRarity <= 0.05f && Players.Num() > 0)
-					{
-						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::LEGENDARY, Players[0]);
-					}
-					else if (TentacleRarity <= 0.20f && Players.Num() > 0)
-					{
-						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::MASTER, Players[0]);
-					}
-					else if (TentacleRarity <= 0.50f && Players.Num() > 0)
-					{
+				float TentacleRarity = FMath::RandRange(0.0f, 1.0f);
+
+				if (TentacleRarity <= 0.05f && Players.Num() > 0)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::LEGENDARY, PlayerTarget);
+				}
+				else if (TentacleRarity <= 0.20f && Players.Num() > 0)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::MASTER, PlayerTarget);
+				}
+				else if (TentacleRarity <= 0.50f && Players.Num() > 0)
+				{
 					
-						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::RARE, Players[0]);
-					}
-					else if (Players.Num() > 0)
-					{
-						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::COMMON, Players[0]);
-					}
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::RARE, PlayerTarget);
+				}
+				else if (Players.Num() > 0)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::COMMON, PlayerTarget);
+				}
 					
 				
 			}
