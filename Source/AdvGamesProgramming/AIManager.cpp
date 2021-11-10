@@ -36,12 +36,6 @@ void AAIManager::BeginPlay()
 		PopulateNodes();
 	}
 
-	for (TActorIterator<ATentacleBase> It(GetWorld()); It; ++It)
-	{
-		if ((*It)->GetActorLocation().X > 0)
-			Tentacles.Add(*It);
-	}
-
 	CreateAgents();
 	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
