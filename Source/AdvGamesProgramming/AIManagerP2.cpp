@@ -43,7 +43,7 @@ void AAIManagerP2::BeginPlay()
 
 
 	CreateAgents();
-	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
+	//UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
 
 // Called every frame
