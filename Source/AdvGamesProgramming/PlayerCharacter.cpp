@@ -10,6 +10,8 @@
 #include "MultiplayerGameMode.h"
 #include "Engine/World.h"
 #include "PlayerHUD.h"
+#include "AIManager.h"
+#include "AIManagerP2.h"
 #include "GameFramework/HUD.h"
 
 // Sets default values
@@ -46,6 +48,24 @@ void APlayerCharacter::BeginPlay()
 	if (SkeletalMesh) // Make sure the skeletal mesh was found
 	{
 		AnimInstance = Cast<UFirstPersonAnimInstance>(SkeletalMesh->GetAnimInstance());
+	}
+
+	for (TObjectIterator<AAIManager> Itr; Itr; ++Itr)
+	{
+		if (Itr->IsA(AAIManager::StaticClass()))
+		{
+			AIManager = *Itr;
+			AIManager->Players.Add(this);
+		}
+	}
+
+	for (TObjectIterator<AAIManagerP2> Itr; Itr; ++Itr)
+	{
+		if (Itr->IsA(AAIManagerP2::StaticClass()))
+		{
+			AIManagerP2 = *Itr;
+			AIManagerP2-> Players.Add(this);
+		}
 	}
 }
 

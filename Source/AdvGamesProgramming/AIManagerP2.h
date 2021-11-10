@@ -78,7 +78,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Tentacles")
 		TArray<class ATentacleBase*> Tentacles;
-	AActor* PlayerTarget;
+
+	UPROPERTY(EditAnywhere, Category = "Players")
+		TArray<class APlayerCharacter*> Players;
+	
 
 	//UFUNCTION(Server, Reliable)
 	//	void GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height);

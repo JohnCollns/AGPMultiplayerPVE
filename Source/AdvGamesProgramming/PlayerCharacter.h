@@ -64,6 +64,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ResetModelVisibility();
 
+	class AAIManager* AIManager;
+	class AAIManagerP2* AIManagerP2;
 private:
 
 	UCameraComponent* Camera;

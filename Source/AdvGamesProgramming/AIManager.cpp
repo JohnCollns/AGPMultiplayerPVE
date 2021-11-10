@@ -4,6 +4,7 @@
 #include "AIManager.h"
 #include "EngineUtils.h"
 #include "NavigationNode.h"
+#include "TentacleBase.h"
 #include "EnemyCharacter.h"
 
 // Sets default values
@@ -34,6 +35,7 @@ void AAIManager::BeginPlay()
 		//UE_LOG(LogTemp, Display, TEXT("POPULATING NODES"))
 		PopulateNodes();
 	}
+
 	CreateAgents();
 	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
@@ -145,20 +147,31 @@ void AAIManager::CreateAgents_Implementation()
 		for (int32 i = 0; i < NumAI; i++)
 		{
 			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
-			if (RandomEnemyType < 0.50f)
+			if (RandomEnemyType < 0.50f && Players[0] != nullptr)
 			{
-				for (int32 x = 0; x < 2; x++)
-				{
-					int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
-					AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(SwarmEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
-					SpawnedEnemy->Manager = this;
-					SpawnedEnemy->SwarmEnemy = true;
-					SpawnedEnemy->SetModifier();
-					SpawnedEnemy->SetStats();
-					SpawnedEnemy->CurrentNode = AllNodes[NodeIndex];
-					EnemyEntities += 1;
-					UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
-				}
+				/*
+					int32 RandomTentacle = FMath::RandRange(0, Tentacles.Num() - 1);
+
+					float TentacleRarity = FMath::RandRange(0.0f, 1.0f);
+
+					if (TentacleRarity <= 0.05f)
+					{
+						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::LEGENDARY, Players[0]);
+					}
+					else if (TentacleRarity <= 0.20f)
+					{
+						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::MASTER, Players[0]);
+					}
+					else if (TentacleRarity <= 0.50f)
+					{
+						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::RARE, Players[0]);
+					}
+					else
+					{
+						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::COMMON, Players[0]);
+					}
+					*/
+				
 			}
 			else
 			{

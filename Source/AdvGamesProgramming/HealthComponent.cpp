@@ -66,6 +66,7 @@ void UHealthComponent::OnTakeDamage(float Damage)
 		CurrentHealth = 0;
 		OnDeath();
 	}
+	
 	if (APawn* OwnerPawn = Cast<APawn>(GetOwner()))
 	{
 		if (GetOwner()->GetLocalRole() == ROLE_Authority && OwnerPawn->IsLocallyControlled())

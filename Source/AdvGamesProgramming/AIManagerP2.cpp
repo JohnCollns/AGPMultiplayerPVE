@@ -4,6 +4,7 @@
 #include "AIManagerP2.h"
 #include "EngineUtils.h"
 #include "NavigationNodeP2.h"
+#include "TentacleBase.h"
 #include "EnemyCharacter.h"
 
 // Sets default values
@@ -34,6 +35,7 @@ void AAIManagerP2::BeginPlay()
 		//UE_LOG(LogTemp, Display, TEXT("POPULATING NODES"))
 		PopulateNodes();
 	}
+
 	CreateAgents();
 	UE_LOG(LogTemp, Warning, TEXT("Number of nodes: %i"), AllNodes.Num())
 }
@@ -144,23 +146,7 @@ void AAIManagerP2::CreateAgents_Implementation()
 		NumAI = RoundNumber;
 		for (int32 i = 0; i < NumAI; i++)
 		{
-			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
-			if (RandomEnemyType < 0.50f)
-			{
-				{
-					int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
-					AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(SwarmEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
-					SpawnedEnemy->ManagerP2 = this;
-					SpawnedEnemy->SwarmEnemy = true;
-					SpawnedEnemy->SetModifier();
-					SpawnedEnemy->SetStats();
-					SpawnedEnemy->CurrentNodeP2 = AllNodes[NodeIndex];
-					EnemyEntities += 1;
-					UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
-				}
-			}
-			else
-			{
+		
 				// Get a random node index
 				int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
 				AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(RegularEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
@@ -170,7 +156,7 @@ void AAIManagerP2::CreateAgents_Implementation()
 				SpawnedEnemy->CurrentNodeP2 = AllNodes[NodeIndex];
 				EnemyEntities += 1;
 				UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
-			}
+			
 		}
 	}
 
