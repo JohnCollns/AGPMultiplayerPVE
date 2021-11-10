@@ -22,6 +22,7 @@ public:
 	class AAIManagerP2* AIManagerP2;
 	class ATerrainManager* TerrainManager;
 
+	UFUNCTION(Server, Reliable)
 	void RoundEnd();
 	void PVPRound();
 

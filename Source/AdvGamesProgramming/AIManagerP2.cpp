@@ -42,9 +42,8 @@ void AAIManagerP2::BeginPlay()
 void AAIManagerP2::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (EnemyEntities == 0 && !PVP && !RoundEnd)
+	if (EnemyEntities == 0 && !PVP)
 	{
-		RoundEnd = true;
 		GameManager->RoundEnd();
 	}
 
@@ -148,7 +147,6 @@ void AAIManagerP2::CreateAgents_Implementation()
 			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
 			if (RandomEnemyType < 0.50f)
 			{
-				for (int32 x = 0; x < 2; x++)
 				{
 					int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
 					AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(SwarmEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());

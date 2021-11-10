@@ -279,6 +279,16 @@ void ATentacleBase::OnDeath() {
 				Actor->Destroy();
 	}
 	else UE_LOG(LogTemp, Warning, TEXT("Sections already empty"))
+
+	if (AIManager)
+	{
+		AIManager->ReduceEnemyEntities();
+	}
+
+	else if (AIManagerP2)
+	{
+		AIManagerP2->ReduceEnemyEntities();
+	}
 	Sections.Empty();
 	// *** alert the AI manager that this has been killed
 }

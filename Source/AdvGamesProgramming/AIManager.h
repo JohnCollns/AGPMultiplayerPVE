@@ -76,6 +76,13 @@ public:
 	class AGameManager* GameManager;
 	bool PVP;
 	bool RoundEnd;
+
+	UPROPERTY(EditAnywhere, Category = "Tentacles")
+		TArray<class ATentacleBase*> Tentacles;
+	AActor* PlayerTarget;
+
+	//UFUNCTION(Server, Reliable)
+	//	void GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height);
 private:
 
 	TArray<ANavigationNode*> ReconstructPath(ANavigationNode* StartNode, ANavigationNode* EndNode);

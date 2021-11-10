@@ -7,6 +7,8 @@
 //#include "TentacleSection.h"
 #include "WeaponPickup.h"
 #include "UObject/UObjectGlobals.h"
+#include "AIManager.h"
+#include "AIManagerP2.h"
 #include "TentacleBase.generated.h"
 
 UCLASS()
@@ -112,6 +114,9 @@ public:
 
 	bool IK(FVector Target);
 	float GetPreviousSectionAngle(int Index, int Axis);
+
+	AAIManager* AIManager;
+	AAIManagerP2* AIManagerP2;
 
 private:
 	UPROPERTY(VisibleAnywhere)

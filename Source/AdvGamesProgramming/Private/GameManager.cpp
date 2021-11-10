@@ -57,7 +57,7 @@ void AGameManager::Tick(float DeltaTime)
 
 }
 
-void AGameManager::RoundEnd()
+void AGameManager::RoundEnd_Implementation()
 {
 	if (AIManager && AIManagerP2)
 	{
@@ -67,8 +67,7 @@ void AGameManager::RoundEnd()
 		{
 			AIManager->CreateAgents();
 			AIManagerP2->CreateAgents();
-			AIManager->RoundEnd = true;
-			AIManagerP2->RoundEnd = true;
+			UE_LOG(LogTemp, Warning, TEXT("Round Ended"));
 		}
 		else
 		{
