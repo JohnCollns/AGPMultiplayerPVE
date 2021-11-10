@@ -147,30 +147,31 @@ void AAIManager::CreateAgents_Implementation()
 		for (int32 i = 0; i < NumAI; i++)
 		{
 			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
-			if (RandomEnemyType < 0.50f && Players[0] != nullptr)
+			if (RandomEnemyType < 0.50f && Players.Num() > 0)
 			{
-				/*
+				UE_LOG(LogTemp, Warning , TEXT("GOT HERE FGUVIEHGUHG %i"), Players.Num())
 					int32 RandomTentacle = FMath::RandRange(0, Tentacles.Num() - 1);
 
 					float TentacleRarity = FMath::RandRange(0.0f, 1.0f);
 
-					if (TentacleRarity <= 0.05f)
+					if (TentacleRarity <= 0.05f && Players.Num() > 0)
 					{
 						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::LEGENDARY, Players[0]);
 					}
-					else if (TentacleRarity <= 0.20f)
+					else if (TentacleRarity <= 0.20f && Players.Num() > 0)
 					{
 						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::MASTER, Players[0]);
 					}
-					else if (TentacleRarity <= 0.50f)
+					else if (TentacleRarity <= 0.50f && Players.Num() > 0)
 					{
+					
 						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::RARE, Players[0]);
 					}
-					else
+					else if (Players.Num() > 0)
 					{
 						Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::COMMON, Players[0]);
 					}
-					*/
+					
 				
 			}
 			else

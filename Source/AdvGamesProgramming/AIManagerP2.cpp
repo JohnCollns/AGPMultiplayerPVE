@@ -146,7 +146,35 @@ void AAIManagerP2::CreateAgents_Implementation()
 		NumAI = RoundNumber;
 		for (int32 i = 0; i < NumAI; i++)
 		{
-		
+			float RandomEnemyType = FMath::RandRange(0.0f, 1.0f);
+			if (RandomEnemyType < 0.50f && Players.Num() > 0)
+			{
+				UE_LOG(LogTemp, Warning , TEXT("GOT HERE FGUVIEHGUHG %i"), Players.Num())
+				int32 RandomTentacle = FMath::RandRange(0, Tentacles.Num() - 1);
+
+				float TentacleRarity = FMath::RandRange(0.0f, 1.0f);
+
+				if (TentacleRarity <= 0.05f)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::LEGENDARY, Players[0]);
+				}
+				else if (TentacleRarity <= 0.20f)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::MASTER, Players[0]);
+				}
+				else if (TentacleRarity <= 0.50f)
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::RARE, Players[0]);
+				}
+				else
+				{
+					Tentacles[RandomTentacle]->SetFromRarity(EWeaponPickupRarity::COMMON, Players[0]);
+				}
+					
+				
+			}
+			else
+			{
 				// Get a random node index
 				int32 NodeIndex = FMath::RandRange(0, AllNodes.Num() - 1);
 				AEnemyCharacter* SpawnedEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(RegularEnemy, AllNodes[NodeIndex]->GetActorLocation(), AllNodes[NodeIndex]->GetActorRotation());
@@ -156,7 +184,7 @@ void AAIManagerP2::CreateAgents_Implementation()
 				SpawnedEnemy->CurrentNodeP2 = AllNodes[NodeIndex];
 				EnemyEntities += 1;
 				UE_LOG(LogTemp, Warning, TEXT("Number of enemies left is : %i"), EnemyEntities)
-			
+			}
 		}
 	}
 

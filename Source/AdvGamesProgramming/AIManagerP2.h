@@ -79,7 +79,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Tentacles")
 		TArray<class ATentacleBase*> Tentacles;
 
-	UPROPERTY(EditAnywhere, Category = "Players")
+	UPROPERTY(EditAnywhere, Replicated, Category = "Players")
 		TArray<class APlayerCharacter*> Players;
 	
 
