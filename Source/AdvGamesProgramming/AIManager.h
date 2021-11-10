@@ -69,14 +69,13 @@ public:
 	ANavigationNode* FindFurthestNode(const FVector& Location);
 
 	UFUNCTION(Server, Reliable)
-	void GenerateNodes(const TArray<FVector>& Vertices, int32 Width, int32 Height);
-	UFUNCTION(Server, Reliable)
 	void AddConnection(ANavigationNode* FromNode, ANavigationNode* ToNode);
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	class AGameManager* GameManager;
 	bool PVP;
+	bool RoundEnd;
 private:
 
 	TArray<ANavigationNode*> ReconstructPath(ANavigationNode* StartNode, ANavigationNode* EndNode);

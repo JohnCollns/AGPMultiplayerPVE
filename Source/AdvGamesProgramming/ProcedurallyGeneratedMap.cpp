@@ -8,6 +8,7 @@
 // Sets default values
 AProcedurallyGeneratedMap::AProcedurallyGeneratedMap()
 {
+	/*
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -16,14 +17,16 @@ AProcedurallyGeneratedMap::AProcedurallyGeneratedMap()
 	PerlinScale = 1000.0f;
 	PerlinRoughness = 0.1f;
 	bRegenerateMap = false;
+	*/
 }
 
 // Called when the game starts or when spawned
 void AProcedurallyGeneratedMap::BeginPlay()
 {
+	/*
 	Super::BeginPlay();
 	
-	/*
+	
 	TArray<FVector> Vertices;
 	Vertices.Add(FVector(0.0f, 0.0f, 0.0f));
 	Vertices.Add(FVector(0.0f, 100.0f, 0.0f));
@@ -46,15 +49,16 @@ void AProcedurallyGeneratedMap::BeginPlay()
 
 	MeshComponent->CreateMeshSection(0, Vertices, Triangles, TArray<FVector>(), 
 		UVCoords, TArray<FColor>(), TArray<FProcMeshTangent>(), true);
-	*/
+	
 
 	//GenerateMap();
-
+	*/
 }
 
 // Called every frame
 void AProcedurallyGeneratedMap::Tick(float DeltaTime)
 {
+	/*
 	Super::Tick(DeltaTime);
 
 	if (bRegenerateMap)
@@ -63,6 +67,7 @@ void AProcedurallyGeneratedMap::Tick(float DeltaTime)
 		GenerateMap();
 		bRegenerateMap = false;
 	}
+	*/
 }
 
 bool AProcedurallyGeneratedMap::ShouldTickIfViewportsOnly() const
@@ -72,6 +77,7 @@ bool AProcedurallyGeneratedMap::ShouldTickIfViewportsOnly() const
 
 void AProcedurallyGeneratedMap::GenerateMap()
 {
+	/*
 	float PerlinOffset = FMath::RandRange(-10000.0f, 10000.0f);
 	for (int32 Y = 0; Y < Height; Y++)
 	{
@@ -103,13 +109,16 @@ void AProcedurallyGeneratedMap::GenerateMap()
 	{
 		AIManager->GenerateNodes(Vertices, Width, Height);
 	}
+	*/
 }
 
 void AProcedurallyGeneratedMap::ClearMap()
 {
+	/*
 	Triangles.Empty();
 	Vertices.Empty();
 	UVCoords.Empty();
 	MeshComponent->ClearAllMeshSections();
+	*/
 }
 

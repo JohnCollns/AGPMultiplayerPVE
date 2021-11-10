@@ -67,6 +67,8 @@ void AGameManager::RoundEnd()
 		{
 			AIManager->CreateAgents();
 			AIManagerP2->CreateAgents();
+			AIManager->RoundEnd = true;
+			AIManagerP2->RoundEnd = true;
 		}
 		else
 		{

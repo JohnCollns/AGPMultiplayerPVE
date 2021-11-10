@@ -42,8 +42,9 @@ void AAIManager::BeginPlay()
 void AAIManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (EnemyEntities == 0 && !PVP)
+	if (EnemyEntities == 0 && !PVP && !RoundEnd)
 	{
+		RoundEnd = true;
 		GameManager->RoundEnd();
 	}
 
@@ -213,79 +214,6 @@ ANavigationNode* AAIManager::FindFurthestNode(const FVector& Location)
 
 	//UE_LOG(LogTemp, Error, TEXT("Furthest Node: %s"), *FurthestNode->GetName())
 	return FurthestNode;
-}
-
-void AAIManager::GenerateNodes_Implementation(const TArray<FVector>& Vertices, int32 Width, int32 Height)
-{
-	// Destroy all the ANavigationNodes
-	for (TActorIterator<ANavigationNode> It(GetWorld()); It; ++It)
-	{
-		(*It)->Destroy();
-	}
-	AllNodes.Empty();
-
-	// Go through all the vertices and place the nodes.
-	for (int i = 0; i < Vertices.Num(); i++)
-	{
-		ANavigationNode* NewNode = GetWorld()->SpawnActor<ANavigationNode>(Vertices[i], FRotator::ZeroRotator, FActorSpawnParameters());
-		AllNodes.Add(NewNode);
-	}
-
-	// Add the connections between the nodes excluding the edge of the map as they do not have all 8 connection directions.
-	for (int Y = 0; Y < Height; Y++)
-	{
-		for (int X = 0; X < Width; X++)
-		{
-			// When does N occur? - When the Y is not at the top of the grid
-			if (!(Y == Height - 1))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y + 1) * Width + X]);
-			}
-
-			// When does NE occur? - When the X or the Y is not on the right or top of the grid respectvely
-			if (!(Y == Height - 1 || X == 0))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y + 1) * Width + X - 1]);
-			}
-
-			// When does E occur? - When the X is on the right of the grid.
-			if (!(X == 0))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[Y * Width + X - 1]);
-			}
-
-			// When does SE occur? - When the X or Y is not on the right or bottom of the grid respectively.
-			if (!(X == 0 || Y == 0))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y - 1) * Width + X - 1]);
-			}
-
-			// When does S occur? - When the Y is not on the bottom of the grid.
-			if (!(Y == 0))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y - 1) * Width + X]);
-			}
-
-			// When does SW occur? - When the X or Y is not on the left or bottom of the grid respectively.
-			if (!(X == Width - 1 || Y == 0))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y - 1) * Width + X + 1]);
-			}
-
-			// When does W occur? - When the X is not on the left of the grid.
-			if (!(X == Width - 1))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[Y * Width + X + 1]);
-			}
-
-			// When does NW occur? - When the X or Y is not on the left or top of the grid.
-			if (!(X == Width - 1 || Y == Height - 1))
-			{
-				AddConnection(AllNodes[Y * Width + X], AllNodes[(Y + 1) * Width + X + 1]);
-			}
-		}
-	}
-
 }
 
 void AAIManager::AddConnection_Implementation(ANavigationNode* FromNode, ANavigationNode* ToNode)
